@@ -49,11 +49,7 @@ def mention_handler(update: Update, context: CallbackContext) -> None:
     # Проверяем, упоминается ли бот
     if bot_username.lower() in text:
         # Извлекаем команду из текста
-        if "всем" in text:
-            question = "Вы упомянули меня! Хотите продолжить?"
-            options = ["Да", "Нет"]
-            create_poll(update, context, question, options)  # Опрос для всех участников
-        elif "@" in text:
+        if "@" in text:
             # Извлекаем ID пользователя из упоминания
             user_mention = text.split("@")[-1].strip()
             print(user_mention, "!!!!!!!!!!!")
@@ -72,6 +68,10 @@ def mention_handler(update: Update, context: CallbackContext) -> None:
                         individual_user_id=member.user.id,
                     )  # Опрос для конкретного пользователя
                     return
+        else:
+            question = "Вы упомянули меня! Хотите продолжить?"
+            options = ["Да", "Нет"]
+            create_poll(update, context, question, options)  # Опрос для всех участников
 
 
 def welcome_handler(update: Update, context: CallbackContext) -> None:

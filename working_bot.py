@@ -11,7 +11,6 @@ import os
 
 load_dotenv()
 API_TOKEN = os.getenv("TOKEN")
-print(API_TOKEN)
 
 
 # Функция для обработки сообщений и проверки упоминания бота
