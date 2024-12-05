@@ -6,14 +6,12 @@ from telegram.ext import (
     CallbackContext,
     ChatMemberHandler,
 )
+from dotenv import load_dotenv
+import os
 
-
-def read_token(file_path):
-    with open(file_path, "r") as file:
-        return file.read().strip()
-
-
-API_TOKEN = read_token("token.txt")
+load_dotenv()
+API_TOKEN = os.getenv("TOKEN")
+print(API_TOKEN)
 
 
 # Функция для проведения опроса
