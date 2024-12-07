@@ -4,14 +4,13 @@ from telegram.ext import (
     MessageHandler,
     Filters,
     CallbackContext,
-    ChatMemberHandler,
 )
 from dotenv import load_dotenv
 import os
 
 load_dotenv()
 API_TOKEN = os.getenv("TOKEN")
-
+DELETE_DELAY = int(os.getenv("DELETE_DELAY", 600))  # Значение по умолчанию - 600 секунд (10 минут)
 
 # Функция для обработки сообщений и проверки упоминания бота
 def mention_handler(update: Update, context: CallbackContext) -> None:
@@ -30,10 +29,10 @@ def mention_handler(update: Update, context: CallbackContext) -> None:
         )
 
         # Планируем удаление сообщения пользователя
-        context.job_queue.run_once(delete_user_message, 60 * 10, context=update.message)
+        context.job_queue.run_once(delete_user_message, DELETE_DELAY, context=update.message)
 
-        # Планируем удаление опроса через 60*10 секунд
-        context.job_queue.run_once(delete_message, 60 * 10, context=message)
+        # Планируем удаление опроса через заданное время
+        context.job_queue.run_once(delete_message, DELETE_DELAY, context=message)
 
 
 # Функция для обработки добавления бота в чат
@@ -51,20 +50,17 @@ def welcome_handler(update: Update, context: CallbackContext) -> None:
                     text="Привет! Для того, чтобы позвать коллег на перекур, вызови меня!",
                 )
 
-
 def delete_user_message(context: CallbackContext) -> None:
     # Удаляем сообщение с упоминанием бота
     context.bot.delete_message(
         chat_id=context.job.context.chat.id, message_id=context.job.context.message_id
     )
 
-
 def delete_message(context: CallbackContext) -> None:
     # Удаляем сообщение с опросом
     context.bot.delete_message(
         chat_id=context.job.context.chat.id, message_id=context.job.context.message_id
     )
-
 
 def main() -> None:
     updater = Updater(API_TOKEN)
@@ -82,7 +78,6 @@ def main() -> None:
     # Запуск бота
     updater.start_polling()
     updater.idle()
-
 
 if __name__ == "__main__":
     main()
