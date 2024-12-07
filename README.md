@@ -15,14 +15,22 @@
 
    ```bash
    python -m venv venv
-   source venv/bin/activate  # Для Linux/Mac
-   venv\Scripts\activate     # Для Windows
+   ```
+
+   Для Linux/Mac
+   ```bash
+   source venv/bin/activate
+   ```
+
+   Для Windows
+   ```bash
+   venv\Scripts\activate
    ```
 
 3. Установите необходимые зависимости:
 
    ```bash
-   pip install python-telegram-bot==13.5 python-dotenv urllib3==1.26.15
+   pip install -r requirements.txt
    ```
 
 4. Создайте файл `.env` в корне проекта и добавьте ваш токен бота:
