@@ -4,6 +4,7 @@ from telegram import Update, Poll
 from telegram.ext import CallbackContext
 
 from handlers.delete_handlers import delete_user_message, delete_message
+from handlers.rule_handler import rule_handler
 
 DELETE_DELAY = int(os.getenv("DELETE_DELAY", 600)) 
 
@@ -27,3 +28,6 @@ def mention_handler(update: Update, context: CallbackContext) -> None:
 
         # Планируем удаление опроса через заданное время
         context.job_queue.run_once(delete_message, DELETE_DELAY, context=message)
+    else:
+        # Если не упоминается, отправляем список возможностей
+        rule_handler(update, context)

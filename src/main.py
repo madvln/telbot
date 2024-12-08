@@ -2,16 +2,19 @@
 import os
 from dotenv import load_dotenv
 load_dotenv()
-from telegram.ext import Updater, MessageHandler, Filters
+from telegram.ext import Updater, MessageHandler, Filters, CommandHandler
 
 from handlers.mention_handler import mention_handler
 from handlers.welcome_handler import welcome_handler
+from handlers.rule_handler import rule_handler
 
 API_TOKEN = os.getenv("TOKEN")
 
-
 def main() -> None:
     updater = Updater(API_TOKEN)
+
+    # Обработка команды /start
+    updater.dispatcher.add_handler(CommandHandler("start", rule_handler))
 
     # Обработка упоминания бота
     updater.dispatcher.add_handler(
