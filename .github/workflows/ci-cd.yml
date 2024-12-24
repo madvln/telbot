@@ -52,8 +52,8 @@ jobs:
 
       - name: Build and push Docker image
         run: |
-          docker build -t your-dockerhub-username/telegram-bot:latest .
-          docker push your-dockerhub-username/telegram-bot:latest
+          docker build -t madvln/telbot:latest .
+          docker push madvln/telbot:latest
 
       - name: Deploy to server
         run: |
